@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx} % Required for the inclusion of mages
+\usepackage[square,sort,comma,numbers]{natbib}
+\usepackage{amsmath} % Required for some math elements 
+\usepackage{import}
+\usepackage[section]{placeins}
+\usepackage{subfiles}
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage[a4paper,left=15mm,right=15mm,top=30mm,bottom=20mm]{geometry}
+
+\begin{document}
+  
+  \begin{titlepage}
+        \begin{center}
+            \large
+            Санкт-Петербургский политехнический университет\\Петра Великого\\
+            \vspace{0.5cm}
+            Институт прикладной математики и механики\\
+            \vspace{0.25cm}
+            Кафедра «Прикладная математика»
+            \vfill
+            \textsc{\LARGE\textbf{Отчет по курсовой работе}}\\[5mm]
+            \Large
+            по дисциплине\\"Интервальный анализ" \\
+            Тема: "Нечеткие множества - система уравнений"
+        \end{center}
+        \vfill
+        \begin{tabular}{l p{175pt} l}
+            Выполнил студент \\ группы 5030102/00201 && Сон Артём Игоревич
+            \vspace{0.25cm}
+            \\Проверил \\ доцент, к.ф.-м.н. && Баженов Александр Николаевич
+        \end{tabular}
+        \vfill
+        \begin{center}
+            Санкт-Петербург \\ 2024 г.
+        \end{center}
+
+
+\end{titlepage}
+
+\section{Постановка задачи}
+
+Решить полностью нечеткую систему линейных уравнений $\tilde{A} \times \tilde{x} = \tilde{b}$ c 
+$\tilde{A} = (A, M, N) > \tilde{0}$, матрица $A$ невырожденная, $\tilde{b} = (b,
+g, h) > \tilde{0}$ 
+
+
+
+\section{Теория}
+
+\begin{enumerate}
+  \item Треугольное нечеткое чесло $ \bar{A} = (m, \alpha, \beta) $ задается
+    функцией принадлежности: 
+
+
+    $$
+    \mu_{\bar{A}} (x) = \begin{cases}
+      1 - \frac{m - x}{\alpha}, & m - \alpha \leq x < m, \alpha > 0  \\
+      1 - \frac{x - m}{\beta}, & m \leq x \leq m + \beta, \beta > 0  \\
+      0, & \text{во всех остальных случаях} \\
+    \end{cases}
+    $$
+
+    Число $\tilde{0} = (0, 0, 0)$  считается нулевым треугольным нечетким
+    числом.
+
+    % рисунок
+
+  \item 
+    Нечеткое число $\bar{A}$ называется положительным ($\bar{A} > 0$), если его
+    функция принадлежности $\mu_{\bar{A}}(x) = 0, \forall x \leq 0$, и
+    отрицательным ($\bar{A} < 0$), если его функция принадлежности
+    $\mu{\bar{A}}(x) = 0, \forall x \geq 0$.
+
+    Число $\bar{A} = (m, \alpha, \beta)$ является положительным, если $m -
+    \alpha \geq 0$.
+
+  \item
+    Два нечетких треугольных числа $\bar{M} = (m, \alpha, \beta)$ и $\bar{N} =
+    (n, \gamma, \delta)$ равны тогда и только тогда, когда 
+    $m = n, \alpha = \gamma, \beta = \delta$.
+
+  \item
+    Суммой двух нечетких треугольных чисел $\bar{M} = (m, \alpha, \beta)$ и 
+    $\bar{N} = (n, \gamma, \delta)$ называется число
+    $ (m, \alpha, \beta) \oplus (n, \gamma, \delta) = (m + n, \alpha + \gamma,
+    \beta + \delta) $
+
+  \item
+    Произведение двух положительных нечетких чисел $\bar{M} = (m, \alpha, \beta)
+    > 0$ и $ \bar{N} = (n, \gamma, \delta) > 0 $ при малых значениях $\alpha,
+    \beta$ по сравнению с $m$ и малых $\gamma, \delta$ по сравнению с $n$
+    приближенно определяется, как нечеткое число вида
+
+    $ (m, \alpha, \beta) \otimes (n, \gamma, \delta) = (mn, m\gamma + n \alpha,
+    m\delta + n \beta)$.
+
+    В частном случае умножения на четкое число $\lambda$:
+
+    $$
+    \lambda \otimes (m, \alpha, \beta) = \begin{cases}
+      (\lambda m, \lambda \alpha, \lambda \beta), & \lambda > 0, \\
+      (\lambda m, - \lambda \beta, - \lambda \alpha), & \lambda < 0 \\
+    \end{cases}
+    $$
+
+    Когда разброс, характеризуемый $\alpha, \beta, \gamma, \delta$ не является
+    малым, может быть использована более точная формула умножения:
+
+    $ (m, \alpha, \beta) \otimes (n, \gamma, \delta) = (mn, m \gamma + n \alpha -
+    \alpha \gamma, m \delta + n \beta - \beta \delta )$.
+
+  \item
+    Матрица $\tilde{A} = (\tilde{a_{ij}})$ называется нечеткой, если каждый ее
+    элемент представляется нечетким числом.
+
+    Нечеткая матрица называется положительной ($\tilde(A) > 0$), если каждый ее
+    элемент положителен. Аналогично определяется неотрицательные, отрицательные,
+    неположительные нечеткие матрицы.
+
+    Нечеткая матрица может быть представлена в форме $\tilde{A} =
+    (\tilde{a_{ij}}) = ((a_{ij}, \alpha_{ij}, \beta_{ij}))$, или
+    $\tilde{A} = (A, M, N)$, где $A = (a_{ij}), M = (\alpha_{ij}), N =
+    (\beta_{ij})$, три матрицы с четкими элементами.
+
+  \item
+    Система вида
+
+    $$
+    \tilde{A} \otimes \tilde{x} = \tilde{b}
+    $$
+
+    с нечеткой прямоугольной матрицей $\tilde{A} = (\tilde{a_{ij}}, i = 1,...,n$
+    и нечеткой матрицей $\tilde{b} = (\tilde{b_{ij}})$ размером $m \times 1$
+    называется полностью нечеткой линейной системой.
+
+    В расширенной форме ее можно переписать в виде:
+
+    \begin{center}
+
+    $(\tilde{a_{11}} \otimes \tilde{x_1}) \oplus ... \oplus (\tilde{a_{1n}}
+    \otimes \tilde{x_n}) = \tilde{b_1}$,
+
+    $(\tilde{a_{21}} \otimes \tilde{x_2}) \oplus ... \oplus (\tilde{a_{2n}}
+    \otimes \tilde{x_n}) = \tilde{b_2}$, 
+
+    ...
+
+    $(\tilde{a_{n1}} \otimes \tilde{x_n}) \oplus ... \oplus (\tilde{a_{nn}}
+    \otimes \tilde{x_n}) = \tilde{b_n}$.
+    \end{center}
+
+\end{enumerate}
+
+\subsection{Решение полностью нечетких СЛАУ}
+
+Метод нахождения положительного решения $\tilde{x} = (x, y, z) > \tilde{0}$
+полностью нечеткой линейной системы $\tilde{A} \times \tilde{x} = \tilde{b}$ c 
+$\tilde{A} = (A, M, N) > \tilde{0}$, матрица $A$ невырожденная, $\tilde{b} = (b,
+g, h) > \tilde{0}$ при выполнении предположений о малых значениях $\alpha,
+\beta$ по сравнению с $m$ и малых $\gamma, \delta$ по сравнению с $n$:
+
+\begin{center}
+  $x = A^{-1}b, $ \\
+  $y = A^{-1}(g - Mx),$ \\
+  $z = A^{-1} (h - Nx).$ \\
+\end{center}
+
+Условия, при которых полностью нечеткая СЛАУ имеет положительное решение:
+
+Если $\tilde{A}$ - неотрицательная нечеткая матрица, $\tilde{x} $ -
+неотрицательный нечеткий вектор, $\tilde{b}$ - известный нечеткий вектор.
+
+\par
+
+Решение системы $(A, M, N) \otimes (x, y, z) = (b, g, h)$ в случае, когда
+матрица $A$ прямоугольная и не делается предположений о малых значениях $\alpha,
+\beta$ по сравнению с $m$, и малых $\gamma, \delta$ по сравнению с $n$.
+
+В этом случае применим более четкую формулу умножения нечетких чисел вида
+
+$ (m, \alpha, \beta) \otimes (n, \gamma, \delta) = (mn, m \gamma + n \alpha -
+\alpha \gamma, m \delta + n \beta - \beta \delta )$:
+
+$(Ax, Ay + Mx - My, Az + Nx + Nz) = (b, g, h)$.
+
+Применяя условия равенства нечетких чисел получаем
+
+\begin{center}
+$ Ax = b $, \\
+$ Ay + Mx - My = g $ \\
+$ Az + Nx + Nz = h $ \\
+\end{center}
+
+Отсюда
+
+\begin{center}
+  $ x = A^{-1}b $, \\
+  $ y = (A - M)^{-1} (g - Mx) $, \\
+  $ z = (A + N)^{-1} (h - Nx) $.
+\end{center}
+
+или
+
+\begin{center}
+$ x = A^{-1}b, y = (A - M)^{-1} (g - MA^{-1}b), z = (A + N)^{-1} (h - NA^{-1}b) $.
+\end{center}
+
+
+\subsection{Выводы}
+Рассмотрена теория полных нечетких систем линейных уравнений, и способы их
+решения. Также была написана программа на языке python, для их решения.
+
+\end{document}
