@@ -73,7 +73,13 @@ def main():
     X_k = []
     X_k.append(X)
     i = 0
-    print("Количевство итераций:", i, "\n", X_k[i][1], X_k[i][0], )
+    print(
+        "Количевство итераций:",
+        i,
+        "\n",
+        X_k[i][1],
+        X_k[i][0],
+    )
     for i in range(1, 10):
         L = create_L(X)
         Lambda = inv_midL(L)
@@ -82,7 +88,13 @@ def main():
         F = F_x(x_av)
         kr = kravchik(x_av, F, Lambda, I, X, L)
         X_k.append(intersection(X, kr))
-        print("Количевство итераций:", i, "\n", X_k[i][1], X_k[i][0], )
+        print(
+            "Количевство итераций:",
+            i,
+            "\n",
+            X_k[i][1],
+            X_k[i][0],
+        )
         X = X_k[i]
 
     fig, ax = plt.subplots(figsize=(4, 4))
@@ -90,12 +102,19 @@ def main():
     for i in range(10):
         one = abs(X_k[i][0].b - X_k[i][0].a)
         two = abs(X_k[i][1].b - X_k[i][1].a)
-        iveRect = plt.Rectangle((X_k[i][1].a, X_k[i][0].a), two, one, edgecolor='black', facecolor='none',
-                                label='Брус ive', linewidth=1.5)
+        iveRect = plt.Rectangle(
+            (X_k[i][1].a, X_k[i][0].a),
+            two,
+            one,
+            edgecolor="black",
+            facecolor="none",
+            label="Брус ive",
+            linewidth=1.5,
+        )
         plt.gca().add_patch(iveRect)
     x = np.arange(-2, 3.01, 0.01)
     y = np.sqrt(1 - pow(x, 2))
-    plt.plot(x, y, '--', linewidth=0.7)
+    plt.plot(x, y, "--", linewidth=0.7)
     y = np.sqrt(x)
     plt.plot(x, y, linewidth=0.7)
     plt.grid()

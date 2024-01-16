@@ -13,12 +13,12 @@ def line(ax, coefs, res, x, y, mod):
 
 
 def start_linear_system_plot(A, b):
-    colors = ['r', 'g', 'b', 'k']
+    colors = ["r", "g", "b", "k"]
     x = np.linspace(-1, 5, 100)
     y = [-0.5, 4]
     fig, ax = plt.subplots()
     for coefs, res, color in zip(A, b, colors):
-        line(ax, coefs.mid, res.mid, x, y, color + '-')
+        line(ax, coefs.mid, res.mid, x, y, color + "-")
 
 
 def linear_system_plot(A, b, title):
@@ -37,18 +37,37 @@ def start_tol_plot(A, b, needVe=False):
     max = ip.linear.Tol(A, b, maxQ=True)
 
     fig, ax = plt.subplots()
-    cs = ax.contour(x, y, z, levels = 20)
+    cs = ax.contour(x, y, z, levels=20)
     fig.colorbar(cs, ax=ax)
     ax.clabel(cs)
-    ax.plot(max[1][0], max[1][1], 'r*', label='Максимум ({}, {}), значение: {}'.format(max[1][0], max[1][1], max[2]))
+    ax.plot(
+        max[1][0],
+        max[1][1],
+        "r*",
+        label="Максимум ({}, {}), значение: {}".format(max[1][0], max[1][1], max[2]),
+    )
     if needVe:
         ive = ip.linear.ive(A, b)
         rve = ive * np.linalg.norm(b.mid) / np.linalg.norm([max[1][0], max[1][1]])
         print("ive: {}".format(ive))
         print("rve: {}".format(rve))
-        iveRect = plt.Rectangle((max[1][0] - ive, max[1][1] - ive), 2 * ive, 2 * ive, edgecolor='red', facecolor='none', label='Брус ive')
+        iveRect = plt.Rectangle(
+            (max[1][0] - ive, max[1][1] - ive),
+            2 * ive,
+            2 * ive,
+            edgecolor="red",
+            facecolor="none",
+            label="Брус ive",
+        )
         plt.gca().add_patch(iveRect)
-        rveRect = plt.Rectangle((max[1][0] - rve, max[1][1] - rve), 2 * rve, 2 * rve, edgecolor='blue', facecolor='none', label='Брус rve')
+        rveRect = plt.Rectangle(
+            (max[1][0] - rve, max[1][1] - rve),
+            2 * rve,
+            2 * rve,
+            edgecolor="blue",
+            facecolor="none",
+            label="Брус rve",
+        )
         plt.gca().add_patch(rveRect)
     return max[2]
 
@@ -62,25 +81,44 @@ def start_tol_plot_with_lines(A, b, needVe=False):
     max = ip.linear.Tol(A, b, maxQ=True)
 
     fig, ax = plt.subplots()
-    cs = ax.contour(x, y, z, levels = 20)
+    cs = ax.contour(x, y, z, levels=20)
     fig.colorbar(cs, ax=ax)
     ax.clabel(cs)
-    ax.plot(max[1][0], max[1][1], 'r*', label='Максимум ({}, {}), значение: {}'.format(max[1][0], max[1][1], max[2]))
+    ax.plot(
+        max[1][0],
+        max[1][1],
+        "r*",
+        label="Максимум ({}, {}), значение: {}".format(max[1][0], max[1][1], max[2]),
+    )
     if needVe:
         ive = ip.linear.ive(A, b)
         rve = ive * np.linalg.norm(b.mid) / np.linalg.norm([max[1][0], max[1][1]])
         print("ive: {}".format(ive))
         print("rve: {}".format(rve))
-        iveRect = plt.Rectangle((max[1][0] - ive, max[1][1] - ive), 2 * ive, 2 * ive, edgecolor='red', facecolor='none', label='Брус ive')
+        iveRect = plt.Rectangle(
+            (max[1][0] - ive, max[1][1] - ive),
+            2 * ive,
+            2 * ive,
+            edgecolor="red",
+            facecolor="none",
+            label="Брус ive",
+        )
         plt.gca().add_patch(iveRect)
-        rveRect = plt.Rectangle((max[1][0] - rve, max[1][1] - rve), 2 * rve, 2 * rve, edgecolor='blue', facecolor='none', label='Брус rve')
+        rveRect = plt.Rectangle(
+            (max[1][0] - rve, max[1][1] - rve),
+            2 * rve,
+            2 * rve,
+            edgecolor="blue",
+            facecolor="none",
+            label="Брус rve",
+        )
         plt.gca().add_patch(rveRect)
 
-    colors = ['r', 'g', 'b', 'k']
+    colors = ["r", "g", "b", "k"]
     x = np.linspace(-1, 5, 100)
     y = [-0.5, 4]
     for coefs, res, color in zip(A, b, colors):
-        line(ax, coefs.mid, res.mid, x, y, color + '-')
+        line(ax, coefs.mid, res.mid, x, y, color + "-")
 
     return max[2]
 
@@ -121,15 +159,17 @@ def main():
     radb = np.array([2, 0.5, 0.25, 0.25])
     b = ip.Interval(midb, radb, midRadQ=True)
 
-    linear_system_plot(A, b, 'mid исходной СЛАУ')
-    maxTol = tol_plot(A, b, 'Tol для исходной системы')
+    linear_system_plot(A, b, "mid исходной СЛАУ")
+    maxTol = tol_plot(A, b, "Tol для исходной системы")
     K = 1.5 * maxTol
     print("K: {}".format(K))
 
     weightsB = np.ones(len(b))
     bCorrected = b_correction(b, K, weightsB)
     print("corrected b: {}".format(bCorrected))
-    maxTolBCorrected = tol_plot(A, bCorrected, 'Tol для системы со скорректированной правой частью', True)
+    maxTolBCorrected = tol_plot(
+        A, bCorrected, "Tol для системы со скорректированной правой частью", True
+    )
 
     midE = np.zeros((4, 2))
     radE = np.array([[0.3, 0.6], [0, 0.6], [0.06, 0], [0, 0.06]])
@@ -137,17 +177,19 @@ def main():
     weightsA = np.ones((4, 2))
     ACorrected = A_correction(A, K, weightsA, E)
     print("corrected A: {}".format(ACorrected))
-    maxTolACorrected = tol_plot(ACorrected, b, 'Tol для системы со скорректированной левой частью', True)
+    maxTolACorrected = tol_plot(
+        ACorrected, b, "Tol для системы со скорректированной левой частью", True
+    )
 
     start_tol_plot_with_lines(ACorrected, b)
-    end_plot('Tol и mid для системы со скорректированной левой частью')
+    end_plot("Tol и mid для системы со скорректированной левой частью")
 
     ACorrected1 = ip.Interval(midA, radA, midRadQ=True)
     row = 0
     ACorrected1[row, 0] = ip.Interval(midA[row, 0], midA[row, 0])
     ACorrected1[row, 1] = ip.Interval(midA[row, 1], midA[row, 1])
     start_tol_plot_with_lines(ACorrected1, b)
-    end_plot('Tol и mid для системы со скорректированной первой строкой')
+    end_plot("Tol и mid для системы со скорректированной первой строкой")
     print("corrected A1: {}".format(ACorrected1))
 
     ACorrected2 = ip.Interval(midA, radA, midRadQ=True)
@@ -155,7 +197,7 @@ def main():
     ACorrected2[row, 0] = ip.Interval(midA[row, 0], midA[row, 0])
     ACorrected2[row, 1] = ip.Interval(midA[row, 1], midA[row, 1])
     start_tol_plot_with_lines(ACorrected2, b)
-    end_plot('Tol и mid для системы со скорректированной второй строкой')
+    end_plot("Tol и mid для системы со скорректированной второй строкой")
     print("corrected A2: {}".format(ACorrected2))
 
     ACorrected3 = ip.Interval(midA, radA, midRadQ=True)
@@ -163,7 +205,7 @@ def main():
     ACorrected3[row, 0] = ip.Interval(midA[row, 0], midA[row, 0])
     ACorrected3[row, 1] = ip.Interval(midA[row, 1], midA[row, 1])
     start_tol_plot_with_lines(ACorrected3, b)
-    end_plot('Tol и mid для системы со скорректированной третьей строкой')
+    end_plot("Tol и mid для системы со скорректированной третьей строкой")
     print("corrected A3: {}".format(ACorrected3))
 
     ACorrected4 = ip.Interval(midA, radA, midRadQ=True)
@@ -171,11 +213,11 @@ def main():
     ACorrected4[row, 0] = ip.Interval(midA[row, 0], midA[row, 0])
     ACorrected4[row, 1] = ip.Interval(midA[row, 1], midA[row, 1])
     start_tol_plot_with_lines(ACorrected4, b)
-    end_plot('Tol и mid для системы со скорректированной четвёртой строкой')
+    end_plot("Tol и mid для системы со скорректированной четвёртой строкой")
     print("corrected A3: {}".format(ACorrected3))
 
     plt.show()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
